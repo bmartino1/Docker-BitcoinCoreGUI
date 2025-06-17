@@ -32,6 +32,10 @@ You should set it to somewhere inside `/config`** (by default, it is set to `/co
 
 ## Volume (Persistence)
 
+AT FIRST LAUCH ALWAYS CHOSE THE 2ND OPTION!!!
+![image](https://github.com/user-attachments/assets/a20cc3ec-8af6-40a9-bb6a-cd9019157a87)
+
+
 The Bitcoin Core data directory is set to `/config/.bitcoin` by default. A volume is created for `/config`,
 but you might want to mount the `/config/.bitcoin` directory on another volume or bind mount.
 
