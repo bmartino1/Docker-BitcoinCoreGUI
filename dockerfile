@@ -40,7 +40,7 @@ RUN apt-get -yq update && apt-get -yq install \
     libqrencode-dev \
     libdb5.3++-dev \
     libdb5.3-dev \
-    unattended-upgrades curl jq tar gnupg ca-certificates git xz-utils bash mc nano
+    unattended-upgrades apt-utils curl jq tar gnupg ca-certificates git xz-utils bash mc nano
 
 # Configure unattended-upgrades for automatic secuiryt updates
 RUN echo "unattended-upgrades unattended-upgrades/enable_auto_updates boolean true" | debconf-set-selections && \
