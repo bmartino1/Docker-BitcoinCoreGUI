@@ -7,11 +7,21 @@ CONFIG_BITCOIN="/config/.bitcoin"
 mkdir -p "$CONFIG_BITCOIN"
 chown -R app:app "$CONFIG_BITCOIN"
 
+# Ensure bitcoin.conf exists
+CONF_FILE="$CONFIG_BITCOIN/bitcoin.conf"
+if [ ! -f "$CONF_FILE" ]; then
+    echo "Creating default bitcoin.conf at $CONF_FILE"
+    touch "$CONF_FILE"
+    chown app:app "$CONF_FILE"
+else
+    echo "bitcoin.conf already exists at $CONF_FILE"
+fi
+
 # Target all expected home dirs for symlink: root's actual home, home/root, and app
 declare -a TARGET_PATHS=(
     "/root/.bitcoin"         # Actual root home
     "/home/root/.bitcoin"    # Sometimes misconfigured root home
-    "/home/app/.bitcoin"
+    "/home/app/.bitcoin"     # debain gui docker user
 )
 
 echo "Ensuring ~/.bitcoin is linked correctly for known users..."
