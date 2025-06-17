@@ -1,8 +1,10 @@
-#!/bin/sh
-# Execute bitcoin update check
+#!/bin/bash
+set -ex
+
+export HOME=/config
+
+# Check for update
 /build.sh
 
-# Docker env
-set -ex
-export HOME=/config
-exec bitcoin-qt
+# Launch bitcoin-qt from persistent path
+exec /config/bitcoin/bin/bitcoin-qt
