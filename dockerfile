@@ -7,12 +7,12 @@ RUN \
     locale-gen
 ENV LANG=en_US.UTF-8
 
-#GUI Internal Env
+# GUI env
 ARG APP_ICON="https://bitcoin.org/img/icons/opengraph.png"
 RUN set-cont-env APP_NAME "Bitcoin-QT"
 RUN set-cont-env DISPLAY_WIDTH "1280"
 RUN set-cont-env DISPLAY_HEIGHT "800"
-RUN set-cont-env APP_VERSION "Lattest"
+RUN set-cont-env APP_VERSION "Latest"
 
 # Install necessary libraries for bitcoin-qt and bitcoind for script
 RUN apt-get -yq update && apt-get -yq install \
@@ -40,8 +40,7 @@ RUN apt-get -yq update && apt-get -yq install \
     libqrencode-dev \
     libdb5.3++-dev \
     libdb5.3-dev \
-    unattended-upgrades curl jq tar gnupg ca-certificates git xz-utils bash && \
-    apt-get clean
+    unattended-upgrades curl jq tar gnupg ca-certificates git xz-utils bash mc nano
 
 # Configure unattended-upgrades for automatic secuiryt updates
 RUN echo "unattended-upgrades unattended-upgrades/enable_auto_updates boolean true" | debconf-set-selections && \
@@ -51,18 +50,18 @@ RUN echo "unattended-upgrades unattended-upgrades/enable_auto_updates boolean tr
 COPY startapp.sh /startapp.sh
 RUN chmod +x /startapp.sh
 
-#Fix Bitcoin Permission after Build script
-RUN chown nobody:users -R /usr/local/bin
-RUN chmod 777 -R /usr/local/bin
+#Fix Bitcoin Permission for Build script ship with bitcon for those who don't use volumes.
+RUN mkdir /config
+RUN chown nobody:users -R /config
+RUN chmod 777 -R /config
 
 COPY build.sh /build.sh
 RUN chmod +x /build.sh
 RUN /build.sh
 
-#Fix Bitcoin Permission after Build script
-RUN chown nobody:users -R /usr/local/bin
-RUN chmod 777 -R /usr/local/bin
-
 #Info
 VOLUME /config
 EXPOSE 5800
+
+# Entrypoint is aut done via scirpt for this debain docker DO NOT SPECIFY 
+#ENTRYPOINT ["/startapp.sh"]
