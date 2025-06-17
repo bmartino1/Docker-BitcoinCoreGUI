@@ -2,10 +2,11 @@
 set -e
 
 export HOME=/config
-BTC_BIN="/usr/local/bin"
-BTC_VERSION_FILE="/config/.btc_version"
+BTC_DIR="/config/bitcoin"
+BTC_BIN="${BTC_DIR}/bin"
+BTC_VERSION_FILE="${BTC_DIR}/.btc_version"
 
-# Ensure required paths exist
+mkdir -p "$BTC_BIN"
 mkdir -p "$(dirname "$BTC_VERSION_FILE")"
 mkdir -p /tmp
 
@@ -18,12 +19,8 @@ LATEST_VERSION=$(curl -s https://bitcoincore.org/en/download/ | \
 
 echo "Latest version is: $LATEST_VERSION"
 
-# Detect current version
-if [[ -f "$BTC_VERSION_FILE" ]]; then
-    CURRENT_VERSION=$(cat "$BTC_VERSION_FILE")
-else
-    CURRENT_VERSION=""
-fi
+CURRENT_VERSION=""
+[ -f "$BTC_VERSION_FILE" ] && CURRENT_VERSION=$(cat "$BTC_VERSION_FILE")
 
 if [[ "$CURRENT_VERSION" != "$LATEST_VERSION" ]]; then
     echo "Updating to Bitcoin Core $LATEST_VERSION"
@@ -42,6 +39,3 @@ if [[ "$CURRENT_VERSION" != "$LATEST_VERSION" ]]; then
 else
     echo "Already running the latest version: $CURRENT_VERSION"
 fi
-
-echo "Ready to start Bitcoin Core GUI"
-#exec "$BTC_BIN/bitcoin-qt"
