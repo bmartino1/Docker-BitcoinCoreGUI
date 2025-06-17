@@ -32,7 +32,7 @@ You should set it to somewhere inside `/config`** (by default, it is set to `/co
 
 ## Volume (Persistence)
 
-AT FIRST LAUCH ALWAYS CHOSE THE 2ND OPTION!!!
+AT FIRST LAUNCH ALWAYS CHOOSE THE 2ND OPTION!!!
 ![image](https://github.com/user-attachments/assets/a20cc3ec-8af6-40a9-bb6a-cd9019157a87)
 
 
