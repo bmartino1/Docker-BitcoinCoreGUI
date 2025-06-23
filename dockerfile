@@ -45,19 +45,27 @@ RUN apt-get -yq update && apt-get -yq install \
 # Configure unattended-upgrades for automatic secuiryt updates
 RUN echo "unattended-upgrades unattended-upgrades/enable_auto_updates boolean true" | debconf-set-selections && \
     dpkg-reconfigure --frontend=noninteractive unattended-upgrades
+#https://wiki.debian.org/UnattendedUpgrades
 
 # Copy entrypoint and build script to auto grab lattest bitcoin...
 COPY startapp.sh /startapp.sh
 RUN chmod +x /startapp.sh
 
 #Fix Bitcoin Permission for Build script ship with bitcon for those who don't use volumes.
-RUN mkdir /config
+RUN mkdir -p /config
 RUN chown nobody:users -R /config
 RUN chmod 777 -R /config
 
 COPY build.sh /build.sh
 RUN chmod +x /build.sh
 RUN /build.sh
+
+#Fix Bitcoin Permission for Build script ship with bitcon for those who don't use volumes.
+RUN chown nobody:users -R /config
+RUN chmod 777 -R /config
+
+#app user runs without sudo and is unable to...
+RUN echo "app ALL=(ALL) NOPASSWD: ALL" >> /etc/sudoers.d/nopasswd
 
 #Info
 VOLUME /config
