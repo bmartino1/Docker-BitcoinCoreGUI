@@ -1,4 +1,4 @@
-# Docker-BitcoinGUI
+# Docker-BitcoinCoreGUI
 Run Bitcoin Docker with VNC Gui
 
 
