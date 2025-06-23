@@ -60,6 +60,8 @@ COPY build.sh /build.sh
 RUN chmod +x /build.sh
 RUN /build.sh
 
+# Add app user before calling the script
+RUN useradd -m -s /bin/bash app
 COPY sethomefolder.sh /sethomefolder.sh
 RUN chmod +x /sethomefolder.sh
 RUN /sethomefolder.sh
