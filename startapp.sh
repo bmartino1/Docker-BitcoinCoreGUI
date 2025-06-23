@@ -8,6 +8,11 @@ mkdir -p /config/.bitcoin
 sudo chown -R nobody:users /config/.bitcoin || true
 sudo chmod -R 777 /config/.bitcoin || true
 
+#Fix Permission for Build
+mkdir -p /config/bitcoin
+sudo chown -R nobody:users /config/bitcoin || true
+sudo chmod -R 777 /config/bitcoin || true
+
 # Run update
 sudo /build.sh
 
