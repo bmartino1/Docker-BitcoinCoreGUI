@@ -7,46 +7,48 @@ CONF_FILE="$CONFIG_BITCOIN/bitcoin.conf"
 # Ensure base config dir exists
 mkdir -p "$CONFIG_BITCOIN"
 
-# Check if 'app' user exists
-if id app &>/dev/null; then
+# Attempt to chown if user exists
+if id "app" &>/dev/null; then
     chown -R app:app "$CONFIG_BITCOIN"
 else
-    echo "[sethomefolder.sh] 'app' user not found, skipping chown"
+    echo "[sethomefolder.sh] Skipping chown: user 'app' not found."
 fi
 
 # Ensure bitcoin.conf exists
 if [ ! -f "$CONF_FILE" ]; then
-    echo "Creating default bitcoin.conf at $CONF_FILE"
+    echo "[sethomefolder.sh] Creating default bitcoin.conf at $CONF_FILE"
     touch "$CONF_FILE"
-    [ -n "$(id -u app 2>/dev/null)" ] && chown app:app "$CONF_FILE"
+    if id "app" &>/dev/null; then
+        chown app:app "$CONF_FILE"
+    fi
 else
-    echo "bitcoin.conf already exists at $CONF_FILE"
+    echo "[sethomefolder.sh] bitcoin.conf already exists."
 fi
 
-# List of known user home paths (can be empty)
-declare -a TARGET_PATHS=(
+# Symlink to ~/.bitcoin for known user home paths
+TARGET_PATHS=(
     "/root/.bitcoin"
     "/home/root/.bitcoin"
     "/home/app/.bitcoin"
 )
 
-echo "Ensuring ~/.bitcoin is linked correctly for known users..."
+echo "[sethomefolder.sh] Ensuring ~/.bitcoin symlinks are in place..."
 
 for path in "${TARGET_PATHS[@]}"; do
     parent_dir="$(dirname "$path")"
 
-    # Skip if user home doesn't exist
+    # Skip if parent doesn't exist
     if [ ! -d "$parent_dir" ]; then
-        echo "Skipping missing parent directory: $parent_dir"
+        echo "[sethomefolder.sh] Skipping: $parent_dir does not exist."
         continue
     fi
 
     if [ -L "$path" ]; then
-        echo "$path is already a symlink"
-    elif [ -d "$path" ] || [ -f "$path" ]; then
-        echo "Found real file or dir at $path — not modifying"
+        echo "[sethomefolder.sh] $path already symlinked."
+    elif [ -e "$path" ]; then
+        echo "[sethomefolder.sh] Found existing file or dir at $path — skipping."
     else
         ln -s "$CONFIG_BITCOIN" "$path"
-        echo "Linked $path -> $CONFIG_BITCOIN"
+        echo "[sethomefolder.sh] Linked $path → $CONFIG_BITCOIN"
     fi
 done
