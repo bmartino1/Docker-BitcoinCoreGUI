@@ -40,7 +40,7 @@ RUN apt-get -yq update && apt-get -yq install \
     libqrencode-dev \
     libdb5.3++-dev \
     libdb5.3-dev \
-    unattended-upgrades apt-utils curl jq tar gnupg ca-certificates git xz-utils bash mc nano
+    unattended-upgrades apt-utils curl jq tar gnupg ca-certificates git xz-utils bash mc nano sudo
 
 # Configure unattended-upgrades for automatic secuiryt updates
 RUN echo "unattended-upgrades unattended-upgrades/enable_auto_updates boolean true" | debconf-set-selections && \
@@ -65,6 +65,7 @@ RUN chown nobody:users -R /config
 RUN chmod 777 -R /config
 
 #app user runs without sudo and is unable to...
+RUN mkdir -p /etc/sudoers.d/
 RUN echo "app ALL=(ALL) NOPASSWD: ALL" >> /etc/sudoers.d/nopasswd
 
 #Info
