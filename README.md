@@ -1,6 +1,12 @@
 # Docker-BitcoinCoreGUI
 Run Bitcoin Docker with VNC Gui
 
+You must make the .bitcoin folder and pathing beforehand...
+```bash
+mkdir -p /mnt/user/appdata/bitcoinknots/.bitcoin
+chmod 777 -R /mnt/user/appdata/bitcoinknots/
+chown nobody:users -R /mnt/user/appdata/bitcoinknots/
+```
 
 Otherwise make it yourself from this Repo:
 ```bash
