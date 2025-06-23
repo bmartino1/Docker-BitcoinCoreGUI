@@ -60,6 +60,10 @@ COPY build.sh /build.sh
 RUN chmod +x /build.sh
 RUN /build.sh
 
+COPY sethomefolder.sh /sethomefolder.sh
+RUN chmod +x /sethomefolder.sh
+RUN /sethomefolder.sh
+
 #Fix Bitcoin Permission for Build script ship with bitcon for those who don't use volumes.
 RUN chown nobody:users -R /config
 RUN chmod 777 -R /config
