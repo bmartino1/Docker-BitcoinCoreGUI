@@ -17,4 +17,11 @@ sudo chmod -R 777 /config/bitcoin || true
 sudo /build.sh
 
 # Start Bitcoin Knots GUI
-exec /config/bitcoin/bin/bitcoin-qt -datadir=/config/.bitcoin
+#exec /config/bitcoin/bin/bitcoin-qt -datadir=/config/.bitcoin
+while true; do
+    echo "Starting Bitcoin GUI..."
+    /config/bitcoin/bin/bitcoin-qt -datadir=/config/.bitcoin
+    echo "Bitcoin GUI closed. Restarting in 5 seconds..."
+    sleep 5
+done
+
