@@ -52,3 +52,11 @@ for path in "${TARGET_PATHS[@]}"; do
         echo "[sethomefolder.sh] Linked $path → $CONFIG_BITCOIN"
     fi
 done
+
+# Remove bitcoin.conf at the end to allow application to generate defaults we want syms only for applicaiotn not a blank file to pre-exisit...
+if [ -f "$CONF_FILE" ]; then
+    echo "[sethomefolder.sh] Removing existing bitcoin.conf to allow auto-generation..."
+    rm -f "$CONF_FILE"
+else
+    echo "[sethomefolder.sh] No bitcoin.conf present — skipping removal."
+fi
